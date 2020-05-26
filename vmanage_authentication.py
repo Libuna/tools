@@ -19,7 +19,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def login():
 
 	# --- system settings --- ##
-	s_vmanage_ip = '166.60.191.211'
+	s_vmanage_ip = '192.168.1.1'
 	s_vedge_os_version = '18.4.4'
 
 	# --- vmanage authentication and create session --- #
