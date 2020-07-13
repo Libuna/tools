@@ -1,0 +1,20 @@
+installed on domain servers:
+- binascii
+- cryptography
+- getpass
+- ipaddress
+- json
+- netmiko
+- paramiko
+- scp
+- select
+- smtplib
+- time
+- urllib3
+
+
+additional modules:
+- colorama
+- netaddr
+- netmiko
+- requests
