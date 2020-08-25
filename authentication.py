@@ -60,21 +60,20 @@ def login():
 
 	try:
 		print('\n')
-		print("  AAA: started\n")
+		print("  Login started.\n")
 		url = 'https://' + d_conf['vmanage_ip'] + '/j_security_check'
 		login = {'j_username': d_conf['vmanage_username'] , 'j_password': d_conf['vmanage_password']}
 		s_session = requests.session()
 		login_response = s_session.post(url=url, data=login, verify=False)
 		if b'<html>' in login_response.content:
-			print('')
-			print("  AAA: failed")
 			time.sleep(1)
 
 		while b'<html>' in login_response.content:
 			os.system("clear")
-			print("\n")
-			print("  AAA: started\n")
-			s_vmanage_password = getpass.getpass('   - Password: ')
+			print('\n')
+			print("  Login failed.\n")
+			s_vmanage_password = getpass.getpass('  Password: ')
+			print('\n')
 			url = 'https://' + d_conf['vmanage_ip'] + '/j_security_check'
 			login = {'j_username': d_conf['vmanage_username'], 'j_password': s_vmanage_password}
 			s_session = requests.session()
@@ -94,7 +93,7 @@ def login():
 				f_conf.write(s_conf)
 				f_conf.close()
 
-		print("  AAA: completed")
+		print("  Login completed.\n")
 		time.sleep(1)
 		os.system("clear")
 		return s_session, d_conf
@@ -115,7 +114,6 @@ def login():
 		print(' ')
 		print('  !! vManage is not accessible !!\n')
 		exit()
-
 
 # --- main --- #
 os.system("clear")

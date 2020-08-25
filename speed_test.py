@@ -476,21 +476,21 @@ if __name__ == "__main__":
 		gl_destination_vedge_ips = speed_test__bfd_sessions(gs_session, gd_conf, gs_source_vedge_ip, gs_vedge_color)
 		gs_destination_vedge_name, gs_destination_vedge_sn, gs_destination_vedge_ip, gs_destination_vedge_reachable = speed_test__destination_vedge(gs_session, gd_conf, gl_destination_vedge_ips)
 
-		# if not 'unreachable' in gs_source_vedge_reachable and not 'unreachable' in gs_destination_vedge_reachable:
-		# 	gs_speed_session_id = speed_test__parameters(gs_session, gd_conf, gs_source_vedge_ip, gs_source_vedge_sn, gs_destination_vedge_ip, gs_vedge_color)
-		# 	gs_speedtest_status_fail = speed_test__start(gs_session, gd_conf, gs_speed_session_id)
-		# 	if not gs_speedtest_status_fail:
-		# 		gc_speedtest = speed_test__live_results(gs_session, gd_conf, gs_speed_session_id, gs_source_vedge_ip)
-		# 		if gc_speedtest > 25:
-		# 			speed_test__history_results(gs_session, gd_conf, gs_source_vedge_ip, gs_speed_session_id)
-		# 	else:
-		# 		speed_test__history_results(gs_session, gd_conf, gs_source_vedge_ip, gs_speed_session_id)
-		# 	speed_test__stop(gs_session, gd_conf, gs_speed_session_id)
-		#
-		# else:
-		# 	print("\n")
-		# 	print("  Destination vEdge is unreachable in vManage")
-		# 	print("\n")
+		if not 'unreachable' in gs_source_vedge_reachable and not 'unreachable' in gs_destination_vedge_reachable:
+			gs_speed_session_id = speed_test__parameters(gs_session, gd_conf, gs_source_vedge_ip, gs_source_vedge_sn, gs_destination_vedge_ip, gs_vedge_color)
+			gs_speedtest_status_fail = speed_test__start(gs_session, gd_conf, gs_speed_session_id)
+			if not gs_speedtest_status_fail:
+				gc_speedtest = speed_test__live_results(gs_session, gd_conf, gs_speed_session_id, gs_source_vedge_ip)
+				if gc_speedtest > 25:
+					speed_test__history_results(gs_session, gd_conf, gs_source_vedge_ip, gs_speed_session_id)
+			else:
+				speed_test__history_results(gs_session, gd_conf, gs_source_vedge_ip, gs_speed_session_id)
+			speed_test__stop(gs_session, gd_conf, gs_speed_session_id)
+
+		else:
+			print("\n")
+			print("  Destination vEdge is unreachable in vManage")
+			print("\n")
 
 	else:
 		print("\n")

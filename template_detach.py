@@ -6,6 +6,8 @@
 
 import authentication
 import os
+import re
+import sys
 import json
 import time
 import urllib3
@@ -102,11 +104,22 @@ def template_detach__detach_template(s_session, d_conf, s_vedge_sn, s_vedge_ip):
 # --- main menu --- #
 os.system("clear")
 if __name__ == "__main__":
-	gs_session, gd_conf = authentication.login()
-	print("\n")
-	gs_vedge_sn = input('  Serial number: ')
-	gs_vedge_sn = gs_vedge_sn.strip()
+	try:
+		gs_vedge_sn = sys.argv[1]
+		gs_vedge_sn = gs_vedge_sn.strip()
+		gs_vedge_sn_re = re.search('\w', gs_vedge_sn)
+	except:
+		print("\n")
+		gs_vedge_sn = input('  Serial number: ')
+		gs_vedge_sn = gs_vedge_sn.strip()
+		gs_vedge_sn_re = re.search('\w', gs_vedge_sn)
+	while gs_vedge_sn_re is None:
+		print("  ! SN has incorrect format !\n")
+		gs_vedge_sn = input('  Serial number: ')
+		gs_vedge_sn = gs_vedge_sn.strip()
+		gs_vedge_sn_re = re.search('\w', gs_vedge_sn)
 
+	gs_session, gd_conf = authentication.login()
 	gs_vedge_ip, gs_no_template = template_detach__verify_template(gs_session, gd_conf, gs_vedge_sn)
 	if gs_no_template is False:
 		gs_template_detach_status = template_detach__detach_template(gs_session, gd_conf, gs_vedge_sn, gs_vedge_ip)

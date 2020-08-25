@@ -7,6 +7,7 @@
 import authentication
 import os
 import re
+import sys
 import json
 import time
 import urllib3
@@ -91,11 +92,22 @@ def smart_account_add_serial_number__add_serial(d_conf, s_vedge_sn):
 # --- main menu --- #
 os.system("clear")
 if __name__ == "__main__":
+	try:
+		gs_vedge_sn = sys.argv[1]
+		gs_vedge_sn = gs_vedge_sn.strip()
+		gs_vedge_sn_re = re.search('\w', gs_vedge_sn)
+	except:
+		print("\n")
+		gs_vedge_sn = input('  Serial number: ')
+		gs_vedge_sn = gs_vedge_sn.strip()
+		gs_vedge_sn_re = re.search('\w', gs_vedge_sn)
+	while gs_vedge_sn_re is None:
+		print("  ! SN has incorrect format !\n")
+		gs_vedge_sn = input('  Serial number: ')
+		gs_vedge_sn = gs_vedge_sn.strip()
+		gs_vedge_sn_re = re.search('\w', gs_vedge_sn)
+
 	gs_session, gd_conf = authentication.login()
-	print('\n')
-	gs_vedge_sn = input('  vEdge serial number: ')
-	print('\n')
-	os.system("clear")
 	gs_cisco_add_status, gs_cisco_add_message, gs_cisco_add_validation, gs_cisco_add_description = smart_account_add_serial_number__add_serial(gd_conf, gs_vedge_sn)
 	print('\n')
 	print('  ' + gs_cisco_add_status)

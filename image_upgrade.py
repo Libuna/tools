@@ -5,6 +5,7 @@
 #  informe@email.cz             #
 
 import authentication
+from image_default import *
 import os
 import re
 import json
@@ -108,8 +109,8 @@ def image_upgrade__vedge_serial(s_session, d_conf):
 	return s_vedge_sn_name_i, s_vedge_ip
 
 # --- vedge image upgrade --- #
-os.system("clear")
 def image_upgrade__image_upgrade(s_session, d_conf, s_vedge_sn, s_vedge_ip):
+	os.system("clear")
 	d_template_os_upgrade = {"action": "install", "input": {"vEdgeVPN": 0, "vSmartVPN": 0,
 	                                                        "data": [{"family": "vedge-mips",
 	                                                                  "version": d_conf['vedge_image_version']}],
@@ -151,7 +152,7 @@ def image_upgrade__image_upgrade(s_session, d_conf, s_vedge_sn, s_vedge_ip):
 		d_vedge_os_upgrade_status = json.loads(r.content.decode('utf8'))
 
 		for s_vous in d_vedge_os_upgrade_status['data']:
-			if 'Success' in s_vous['status'] or 'Fail' in s_vous['status']:
+			if 'Success' in s_vous['status'] or 'Fail' in s_vous['status'] or 'Skipped' in s_vous['status']:
 				c_tasks_status += 1
 			os.system("clear")
 			l_status_char_len = []

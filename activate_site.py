@@ -1,8 +1,6 @@
 #!/home/repos/public/Python/bin/python3.6
 
-
-
-#  llipa-devops                  #
+#  lipa-devops                  #
 #  automation tools development #
 #  libor.slavata@cz.verizon.com #
 
@@ -153,8 +151,19 @@ def activate_site__vedge_info(s_session, d_conf):
 	else:
 		s_vedge_config_status = '    ok'
 
+	s_activation_status = ''
 	if not s_vedge_uuid and not s_vedge_model:
 		s_activation_status = 'SN is not registered in vManage'
+	elif not 'NOT ok' in s_vedge_uuid_status and not 'NOT ok' in s_vedge_model_status and not 'NOT ok' in s_vedge_model_status and not 'NOT ok' in s_vedge_hostname_status and not 'NOT ok' in s_vedge_ip_status and not 'NOT ok' in s_vedge_image_version_status and not 'NOT ok' in s_vedge_image_default_status and not 'NOT ok' in s_vedge_template_status and not 'NOT ok' in s_vedge_rechable_status and not 'NOT ok' in s_vedge_config_status:
+		c_service_port_status = 0
+		if d_vedge_service_ports:
+			for k, v in d_vedge_service_ports.items():
+				if 'NOT ok' in v['port_status']:
+					c_service_port_status += 1
+		if c_service_port_status == 0:
+			s_activation_status = 'activated'
+		else:
+			s_activation_status = 'not activated'
 	else:
 		s_activation_status = 'not activated'
 
@@ -292,7 +301,7 @@ except:
 while gs_vedge_sn_re is None:
 	print('\n')
 	print("  ! SN has incorrect format !\n")
-	gs_vedge_sn = input('   - Serial number: ')
+	gs_vedge_sn = input('  Serial number: ')
 	gs_vedge_sn = gs_vedge_sn.strip()
 	gs_vedge_sn_re = re.search('\w', gs_vedge_sn)
 
@@ -699,7 +708,7 @@ while c_menu < 1:
 			print('  !! Upgrade vEdge before setting default partition.')
 			activate_site__menu_options()
 		else:
-			gs_image_default_status = image_default__default_partition(gs_session, gd_conf, gs_vedge_ip, gs_vedge_sn)
+			gs_image_default_status = image_default__default_partition(gs_session, gd_conf, gs_vedge_sn, gs_vedge_ip)
 			os.system("clear")
 			gs_vedge_model, gs_vedge_uuid, gs_vedge_hostname, gs_vedge_ip, gs_vedge_image_version, gs_vedge_image_default, \
 			gs_vedge_template, gs_vedge_reachable, gs_vedge_config, gs_vedge_model_status, gs_vedge_uuid_status, gs_vedge_hostname_status, \

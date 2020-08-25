@@ -34,7 +34,7 @@ def image_default__vedge_serial(s_session, d_conf):
 	d_vedge_name = {}
 	for s_vsv in d_vedge_serial['data']:
 		if 'defaultVersion' in s_vsv.keys():
-			if d_conf['vedge_image_version'] not in s_vsv['defaultVersion']:
+			if d_conf['vedge_image_version'] not in s_vsv['defaultVersion'] and d_conf['vedge_image_version'] in s_vsv['version']:
 				l_vedge_serial.append(s_vsv['uuid'])
 				if 'system-ip' in s_vsv.keys():
 					d_vedge_ip.update({s_vsv['uuid']:s_vsv['system-ip']})
@@ -107,7 +107,8 @@ def image_default__vedge_serial(s_session, d_conf):
 	return s_vedge_sn_name_i, s_vedge_ip
 
 # --- set default partition --- #
-def image_default__default_partition(s_session, d_conf, s_vedge_ip, s_vedge_sn):
+def image_default__default_partition(s_session, d_conf, s_vedge_sn, s_vedge_ip):
+	os.system("clear")
 	d_template_partition = {"action": "defaultpartition",
 	 "devices": [{"version": d_conf['vedge_image_version'], "deviceIP": s_vedge_ip, "deviceId": s_vedge_sn}],
 	 "deviceType": "vedge"}
@@ -135,7 +136,7 @@ def image_default__default_partition(s_session, d_conf, s_vedge_ip, s_vedge_sn):
 		c_tasks_status = 0
 		time.sleep(10)
 		url = 'https://' + d_conf['vmanage_ip'] + '/dataservice/device/action/status/' + s_push_default_partition_id
-		r = gs_session.get(url=url, verify=False)
+		r = s_session.get(url=url, verify=False)
 		r.status_code = str(r.status_code)
 		r.status_code = r.status_code.strip()
 		if '200' not in r.status_code:
@@ -147,7 +148,7 @@ def image_default__default_partition(s_session, d_conf, s_vedge_ip, s_vedge_sn):
 		d_default_partition_status = json.loads(r.content.decode('utf8'))
 
 		for s_vdps in d_default_partition_status['data']:
-			if 'Success' in s_vdps['status'] or 'Fail' in s_vdps['status']:
+			if 'Success' in s_vdps['status'] or 'Fail' in s_vdps['status'] or 'Skipped' in s_vdps['status']:
 				c_tasks_status += 1
 			os.system("clear")
 			l_status_char_len = []
@@ -171,4 +172,4 @@ os.system("clear")
 if __name__ == "__main__":
 	gs_session, gd_conf = authentication.login()
 	gs_vedge_sn, gs_vedge_ip = image_default__vedge_serial(gs_session, gd_conf)
-	gs_image_default_status = image_default__default_partition(gs_session, gd_conf, gs_vedge_ip, gs_vedge_sn)
+	gs_image_default_status = image_default__default_partition(gs_session, gd_conf, gs_vedge_sn, gs_vedge_ip)
