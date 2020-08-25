@@ -122,7 +122,7 @@ def instructions():
 	s_answer = input()
 	s_answer_re = re.search('^y$|^n$', s_answer)
 	while s_answer_re is None:
-		print("  !! Select from above options. Please try again: !!")
+		print("  !! Select from above options. Please try again: !!\n")
 		print("  => ", end="")
 		s_answer = input()
 		s_answer_re = re.search('^y$|^n$', s_answer)
@@ -766,8 +766,7 @@ def save_file():
   For record updates in a file just run ./setup script again.
   If you will loose the key just delete ~/viptela/.conf file and run ./setup script.
    
-   
-   
+      
 			""" % s_key_print)
 			os.chmod(gs_conffile, 0o600)
 			os.chmod(gs_userpath + '/viptela', 0o700)
@@ -778,7 +777,6 @@ def save_file():
   Clear text records have been saved successfully.
   
   If you will need to update records in a file just run ./setup script again.
-
 
 
 			""")
