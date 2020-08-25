@@ -1,6 +1,8 @@
 #!/home/repos/public/Python/bin/python3.6
 
-#  lipa-devops                  #
+
+
+#  llipa-devops                  #
 #  automation tools development #
 #  libor.slavata@cz.verizon.com #
 
